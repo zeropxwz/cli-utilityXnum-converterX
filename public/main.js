@@ -1,9 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const hex_1 = __importDefault(require("./helpers/hex"));
+const hex_1 = require("./helpers/hex");
 function toDecim(num) {
     var sys = num.match(/(^0b|0x)/g).join();
     var num = num.replace(/(^0b|0x)/g, '');
@@ -21,14 +18,12 @@ function toDecim(num) {
     while (exp >= 0) {
         sys === 2
             ? res += Number(num[ind]) * Math.pow(Number(sys), exp)
-            : res += Number((0, hex_1.default)(num)[ind]) * Math.pow(Number(sys), exp);
+            : res += Number((0, hex_1.hex)(num)[ind]) * Math.pow(Number(sys), exp);
         exp--;
         ind++;
     }
     console.log(res);
 }
-// toDecim('0b111')
-const hexTABLE = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G'];
 function toOther(num, sys) {
     var res = '';
     switch (sys) {
@@ -46,9 +41,9 @@ function toOther(num, sys) {
             }
             let r = [];
             for (let i = 0; i < res.split('|').length; i++) {
-                for (let j = 0; j < hexTABLE.length; j++) {
+                for (let j = 0; j < hex_1.hexTABLE.length; j++) {
                     if (Number(res.split('|')[i]) === j) {
-                        r.push(hexTABLE[j]);
+                        r.push(hex_1.hexTABLE[j]);
                     }
                 }
             }
