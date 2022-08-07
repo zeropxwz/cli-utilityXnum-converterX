@@ -1,6 +1,4 @@
-import hex from "./helpers/hex"
-
-
+import {hex, hexTABLE} from "./helpers/hex"
 
 function toDecim (num: string): void {
 
@@ -33,10 +31,44 @@ function toDecim (num: string): void {
 
     console.log(res)
 }
-toDecim('0b10111')
 
-function toOther (num: string, sys: string): void {
+function toOther (num: number, sys: string): void {
+
+    var res: string = ''
+        
+    switch (sys) {
+        case 'bin':
+            while (num !== 0) {
+                res += String(num % 2) + '|'
+                num  = Math.floor(num / 2)
+            }
+        
+            console.log(res.split('|').reverse().join().replace(/,/g, ''))
+            break
+        case 'hex':
+            while (num !== 0) {
+                res += String(num % 16) + '|'
+                num  = Math.floor(num / 16)
+            }
+
+            let r: string[] = []
+
+            for (let i = 0; i < res.split('|').length; i++) {
+                for (let j = 0; j < hexTABLE.length; j++) {
+                    if (Number(res.split('|')[i]) === j) {
+                        r.push(hexTABLE[j])
+                    }
+                }
+
+            }
+            r.reverse().shift()
+
+            console.log('0x' + r.join().replace(/,/g, ''))
+            break
+    }
+
 
 }
+toOther(Number('101'), 'hex')
 
 
