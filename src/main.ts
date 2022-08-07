@@ -1,74 +1,110 @@
 import {hex, hexTABLE} from "./helpers/hex"
 
-function toDecim (num: string): void {
 
-    var sys: string | number = num.match(/(^0b|0x)/g)!.join()
-    var num = num.replace(/(^0b|0x)/g, '')
 
-    switch (sys) {
-        case '0b':
-            sys = 2
-            break
-        case '0x':
-            sys = 16
-            break
+
+
+class Parser {
+
+    static parse (n: string): [string, string] {
+
+        const result: [string, string] = ['0d', '']
+
+        let sys: string = ''
+        let num: string = ''
+
+        if (n.search(/(0b|0x)/) === 0) {
+            sys = n.match(/(0b|0x)/)!.join().replace(/(,(0b|0x))/, '')
+            num = n.replace(/(0b|0x)/, '')
+
+            result[0] = sys
+            result[1] = num
+        }
+        else {
+            result[1] = n
+        }
+    
+        return result
     }
-
-    var exp: number = num.length - 1
-    var ind: number = 0
-
-    var res: number = 0
-
-    while (exp >= 0) {
-        
-        sys === 2 
-            ? res += Number(num[ind])      * Math.pow(Number(sys), exp)
-            : res += Number(hex(num)[ind]) * Math.pow(Number(sys), exp)
-
-        exp--
-        ind++
-    }
-
-    console.log(res)
 }
 
-function toOther (num: number, sys: string): void {
+class Converter extends Parser {
 
-    var res: string = ''
-        
-    switch (sys) {
-        case 'bin':
-            while (num !== 0) {
-                res += String(num % 2) + '|'
-                num  = Math.floor(num / 2)
-            }
-        
-            console.log(res.split('|').reverse().join().replace(/,/g, ''))
-            break
-        case 'hex':
-            while (num !== 0) {
-                res += String(num % 16) + '|'
-                num  = Math.floor(num / 16)
-            }
+    static toBin (n: string): string | object {
 
-            let r: string[] = []
+        let [sys, num] = this.parse(n)
 
-            for (let i = 0; i < res.split('|').length; i++) {
-                for (let j = 0; j < hexTABLE.length; j++) {
-                    if (Number(res.split('|')[i]) === j) {
-                        r.push(hexTABLE[j])
-                    }
-                }
+        if (sys === '0b') {
+            return new Error('convert from same type')
+        }
 
-            }
-            r.reverse().shift()
+        if (sys === '0x') {
+            num = String(this.toDec(num))
+        }
 
-            console.log('0x' + r.join().replace(/,/g, ''))
-            break
+        let res: string = ''   
+
+        while (Number(num) !== 0) {
+            res += String(Number(num) % 2) + '|'
+            num  = String(Math.floor(Number(num)  / 2))
+        }
+    
+        return res.split('|').reverse().join().replace(/,/g, '')
     }
 
+    static toHex (n: string) {
 
+    }
+
+    static toDec(n: string): string | object {
+
+        let [sys, num] = this.parse(n)
+
+        if (sys === '0d') {
+            return new Error('convert from same type')
+        }
+
+        switch (sys) {
+            case '0b':
+                sys = String(2)
+                break
+            case '0x':
+                sys = String(16)
+                break
+        }
+
+        let exp: number = num.length - 1
+        let ind: number = 0
+    
+        let res: number = 0
+    
+        while (exp >= 0) {
+            
+            sys === String(2)
+                ? res += Number(num[ind])      * Math.pow(Number(sys), exp)
+                : res += Number(hex(num)[ind]) * Math.pow(Number(sys), exp)
+    
+            exp--
+            ind++
+        }
+
+        return String(res)
+    }
 }
-toOther(Number('101'), 'hex')
+
+
+console.log(
+    Converter.toBin('10')
+)
+
+
+
+
+
+
+
+
+
+
 
 
