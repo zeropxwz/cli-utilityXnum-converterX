@@ -105,7 +105,7 @@ class Converter extends Parser {
     }
 }
 
-export {Converter as NumConver}
+export {Converter as NumConvert}
 
 
 
