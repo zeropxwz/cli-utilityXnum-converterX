@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.NumConver = void 0;
 const hex_1 = require("./helpers/hex");
 class Parser {
     static parse(n) {
@@ -25,7 +26,7 @@ class Converter extends Parser {
             return new Error('convert from same type');
         }
         if (sys === '0x') {
-            num = String(this.toDec(num));
+            num = String(this.toDec(`0x${num}`));
         }
         let res = '';
         while (Number(num) !== 0) {
@@ -35,6 +36,19 @@ class Converter extends Parser {
         return res.split('|').reverse().join().replace(/,/g, '');
     }
     static toHex(n) {
+        let [sys, num] = this.parse(n);
+        if (sys === '0x') {
+            return new Error('convert from same type');
+        }
+        if (sys === '0b') {
+            num = String(this.toDec(`0b${num}`));
+        }
+        let res = '';
+        while (Number(num) !== 0) {
+            res += String(Number(num) % 16) + '|';
+            num = String(Math.floor(Number(num) / 16));
+        }
+        return (0, hex_1.hexB)(res.split('|'));
     }
     static toDec(n) {
         let [sys, num] = this.parse(n);
@@ -55,11 +69,11 @@ class Converter extends Parser {
         while (exp >= 0) {
             sys === String(2)
                 ? res += Number(num[ind]) * Math.pow(Number(sys), exp)
-                : res += Number((0, hex_1.hex)(num)[ind]) * Math.pow(Number(sys), exp);
+                : res += Number((0, hex_1.hexA)(num)[ind]) * Math.pow(Number(sys), exp);
             exp--;
             ind++;
         }
         return String(res);
     }
 }
-console.log(Converter.toBin('10'));
+exports.NumConver = Converter;

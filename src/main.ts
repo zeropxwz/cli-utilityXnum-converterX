@@ -1,8 +1,4 @@
-import {hex, hexTABLE} from "./helpers/hex"
-
-
-
-
+import {hexA, hexB, hexTABLE} from "./helpers/hex"
 
 class Parser {
 
@@ -39,7 +35,7 @@ class Converter extends Parser {
         }
 
         if (sys === '0x') {
-            num = String(this.toDec(num))
+            num = String(this.toDec(`0x${num}`))
         }
 
         let res: string = ''   
@@ -53,7 +49,24 @@ class Converter extends Parser {
     }
 
     static toHex (n: string) {
+        let [sys, num] = this.parse(n)
 
+        if (sys === '0x') {
+            return new Error('convert from same type')
+        }
+
+        if (sys === '0b') {
+            num = String(this.toDec(`0b${num}`))
+        }
+
+        let res: string = ''   
+
+        while (Number(num) !== 0) {
+            res += String(Number(num) % 16) + '|'
+            num  = String(Math.floor(Number(num)  / 16))
+        }
+
+        return hexB(res.split('|'))
     }
 
     static toDec(n: string): string | object {
@@ -81,8 +94,8 @@ class Converter extends Parser {
         while (exp >= 0) {
             
             sys === String(2)
-                ? res += Number(num[ind])      * Math.pow(Number(sys), exp)
-                : res += Number(hex(num)[ind]) * Math.pow(Number(sys), exp)
+                ? res += Number(num[ind])       * Math.pow(Number(sys), exp)
+                : res += Number(hexA(num)[ind]) * Math.pow(Number(sys), exp)
     
             exp--
             ind++
@@ -92,10 +105,10 @@ class Converter extends Parser {
     }
 }
 
+export {Converter as NumConver}
 
-console.log(
-    Converter.toBin('10')
-)
+
+
 
 
 
