@@ -8,5 +8,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@zeropxwz/read-arguments": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.4"
+  }
 }
