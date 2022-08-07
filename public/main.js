@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const readArguments = require('@zeropxwz/read-arguments');
 const hex_1 = require("./helpers/hex");
 const args = readArguments(process.argv);
-let sysA = args[0].match(/^(0x|0b|0d)/g).join();
+let sysA = args[0].match(/^(0x|0b)/g).join();
 let sysB = args[1];
-let num = args[0].replace(/^(0x|0b|0d)/, '');
+let num = args[0].replace(/^(0x|0b)/, '');
 class Converter {
     static toDecim(num, sys) {
         switch (sys) {

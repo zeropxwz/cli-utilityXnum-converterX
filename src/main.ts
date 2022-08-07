@@ -6,22 +6,9 @@ import {hexA, hexB, hexTABLE} from "./helpers/hex"
 
 const args: Array<string> = readArguments(process.argv)
 
-
-let sysA: string = args[0].match(/^(0x|0b|0d)/g)!.join() 
+let sysA: string = args[0].match(/^(0x|0b)/g)!.join() 
 let sysB: string = args[1]
-let num:  string = args[0].replace(/^(0x|0b|0d)/, '')
-
-
-
-
-
-
-
-
-
-
-
-
+let num:  string = args[0].replace(/^(0x|0b)/, '')
 
 class Converter {
 
