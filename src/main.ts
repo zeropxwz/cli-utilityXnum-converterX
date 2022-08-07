@@ -1,4 +1,4 @@
-import {hex, hexTABLE} from "./helpers/hex"
+import {hexA, hexB, hexTABLE} from "./helpers/hex"
 
 function toDecim (num: string): void {
 
@@ -23,7 +23,7 @@ function toDecim (num: string): void {
         
         sys === 2 
             ? res += Number(num[ind])      * Math.pow(Number(sys), exp)
-            : res += Number(hex(num)[ind]) * Math.pow(Number(sys), exp)
+            : res += Number(hexA(num)[ind]) * Math.pow(Number(sys), exp)
 
         exp--
         ind++
@@ -51,24 +51,12 @@ function toOther (num: number, sys: string): void {
                 num  = Math.floor(num / 16)
             }
 
-            let r: string[] = []
-
-            for (let i = 0; i < res.split('|').length; i++) {
-                for (let j = 0; j < hexTABLE.length; j++) {
-                    if (Number(res.split('|')[i]) === j) {
-                        r.push(hexTABLE[j])
-                    }
-                }
-
-            }
-            r.reverse().shift()
-
-            console.log('0x' + r.join().replace(/,/g, ''))
+            console.log(hexB(res.split('|')))
             break
     }
 
 
 }
-toOther(Number('101'), 'hex')
+toOther(Number('4'), 'bin')
 
 
