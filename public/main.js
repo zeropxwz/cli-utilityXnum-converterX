@@ -18,7 +18,7 @@ function toDecim(num) {
     while (exp >= 0) {
         sys === 2
             ? res += Number(num[ind]) * Math.pow(Number(sys), exp)
-            : res += Number((0, hex_1.hex)(num)[ind]) * Math.pow(Number(sys), exp);
+            : res += Number((0, hex_1.hexA)(num)[ind]) * Math.pow(Number(sys), exp);
         exp--;
         ind++;
     }
@@ -39,17 +39,8 @@ function toOther(num, sys) {
                 res += String(num % 16) + '|';
                 num = Math.floor(num / 16);
             }
-            let r = [];
-            for (let i = 0; i < res.split('|').length; i++) {
-                for (let j = 0; j < hex_1.hexTABLE.length; j++) {
-                    if (Number(res.split('|')[i]) === j) {
-                        r.push(hex_1.hexTABLE[j]);
-                    }
-                }
-            }
-            r.reverse().shift();
-            console.log('0x' + r.join().replace(/,/g, ''));
+            console.log((0, hex_1.hexB)(res.split('|')));
             break;
     }
 }
-toOther(Number('101'), 'hex');
+toOther(Number('4'), 'bin');
